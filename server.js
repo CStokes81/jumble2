@@ -6,7 +6,7 @@ const { render } = require("ejs");
 const session = require("express-session");
 const flash = require("express-flash");
 const passport = require("passport");
-
+//
 const initializePassport = require("./passportConfig");
 
 initializePassport(passport);
