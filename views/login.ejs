@@ -7,9 +7,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"
     />
+    <!--<link rel="stylesheet" type="text/css" href="/css/style.css" />-->
     <title>Login</title>
   </head>
-  <body>
+  <body class="login" style="text-align: center">
     <h1>Login</h1>
 
     <ul>
@@ -20,7 +21,7 @@
 
     <ul>
       <% if(messages.error){ %>
-      <li><%= message.error %></li>
+      <li><%= messages.error %></li>
       <% } %>
     </ul>
 
@@ -46,8 +47,11 @@
 
       <div>
         <input type="submit" value="Login" />
+        <a href="users/dashboard"></a>
       </div>
-      <a href="/users/Register">Register</a>
+      <a href="/users/register">Register</a>
     </form>
+
+    <footer><%- include('./partials/footer'); %></footer>
   </body>
 </html>

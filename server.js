@@ -14,6 +14,7 @@ initializePassport(passport);
 const PORT = process.env.PORT || 4000;
 
 //This sends front end detail to our server
+app.set("views", "./views");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 
@@ -26,13 +27,16 @@ app.use(
     saveUninitialized: false,
   })
 );
-
+//Static files
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(express.static("public"));
+app.use("/css", express.static(__dirname + "public/css"));
+app.use("/js", express.static(__dirname + "public/js"));
+app.use("/images", express.static(__dirname + "public/images"));
 app.use(flash());
 
-app.get("/", (req, res) => {
+app.get("/users/index/", (req, res) => {
   res.render("index");
 });
 
@@ -53,6 +57,10 @@ app.get("/users/logout", (req, res) => {
   req.flash("success_msg", "You are logged out");
   res.redirect("/users/login");
 });
+
+/*app.get("/users/game", (req, res) => {
+  res.sendFile(__dirname + "/users/game.html");
+});*/
 
 app.post("/users/register", async (req, res) => {
   let { name, email, password, password2 } = req.body;
@@ -118,6 +126,7 @@ app.post("/users/register", async (req, res) => {
   }
 });
 
+//if it cannot authenticate, express will render one of the error messages
 app.post(
   "/users/login",
   passport.authenticate("local", {

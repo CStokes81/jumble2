@@ -7,10 +7,149 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Word Jumble</title>
+    <!-- style -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fondamento&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+
+    <!-- end style -->
   </head>
   <body>
     <a href="/users/logout">Logout</a>
-    <h1>Hello <%= user.charAt(0).toUpperCase() + user.slice(1) %></h1>
+    <h2>Hello <%= user.charAt(0).toUpperCase() + user.slice(1) %></h2>
+
+    <header>
+      <h1>Can You Guess The Word?</h1>
+    </header>
+
+    <section>
+      <div class="gameArea">
+        <div class="score">
+          Score
+          <h2 class="score-1">250</h2>
+        </div>
+        <h2 class="message"></h2>
+        <input type="text" class="hidden" />
+        <button class="btn">Click Here to Play!</button>
+      </div>
+    </section>
+
+    <script>
+      const message = document.querySelector(".message");
+      const guess = document.querySelector("input");
+      const btn = document.querySelector(".btn");
+      let score = document.querySelector(".score-1");
+      score.innerHTML = 0;
+      let sc = 0;
+      let play = false;
+      let newWords = "";
+      let randWords = "";
+      let searchWords = [
+        "alabama",
+        "alaska",
+        "arizona",
+        "arkansas",
+        "california",
+        "colorado",
+        "connecticut",
+        "delaware",
+        "florida",
+        "georgia",
+        "hawaii",
+        "idaho",
+        "illinois",
+        "indiana",
+        "iowa",
+        "kansas",
+        "kentucky",
+        "louisiana",
+        "maine",
+        "maryland",
+        "massachusetts",
+        "michigan",
+        "minnesota",
+        "mississippi",
+        "missouri",
+        "montana",
+        "nebraska",
+        "nevada",
+        "new hampshire",
+        "new jersey",
+        "new mexico",
+        "new york",
+        "north carolina",
+        "north dakota",
+        "ohio",
+        "oklahoma",
+        "oregon",
+        "pennsylvania",
+        "rhode island",
+        "south carolina",
+        "south dakota",
+        "tennessee",
+        "texas",
+        "utah",
+        "vermont",
+        "virginia",
+        "washington",
+        "west virginia",
+        "wisconsin",
+        "wyoming",
+      ];
+
+      const createNewWords = () => {
+        let ranNum = Math.floor(Math.random() * searchWords.length);
+        //console.log(ranNum);
+        let newSearchWords = searchWords[ranNum];
+        //console.log(newSearchWords.split(""));
+        return newSearchWords;
+      };
+
+      const scrambleWords = (arr) => {
+        for (let i = arr.length - 1; i >= 0; i--) {
+          let temp = arr[i];
+          console.log(temp);
+          let j = Math.floor(Math.random() * (i + 1));
+          //console.log(i);
+          //console.log(j);
+
+          arr[i] = arr[j];
+          arr[j] = temp;
+        }
+        return arr;
+      };
+
+      btn.addEventListener("click", function () {
+        if (!play) {
+          play = true;
+          btn.innerHTML = "Guess";
+          guess.classList.toggle("hidden");
+          newWords = createNewWords();
+          randWords = scrambleWords(newWords.split("")).join("");
+          //console.log(randWords.join(""));
+          message.innerHTML = `Guess the Word: ${randWords}`;
+        } else {
+          let tempWord = guess.value;
+          if (tempWord === newWords) {
+            //console.log("Good Job!");
+            play = false;
+            message.innerHTML = `Good Job! The answer is ${newWords}`;
+            sc += 5;
+            score.innerHTML = sc;
+            btn.innerHTML = "Play Again";
+            guess.classList.toggle("hidden");
+            guess.value = "";
+          } else {
+            console.log("Try Again");
+            message.innerHTML = `Sorry! That answer is incorrect. Please try again ${randWords}`;
+          }
+        }
+      });
+    </script>
+
+    <footer><%- include('./partials/footer'); %></footer>
   </body>
 </html>
