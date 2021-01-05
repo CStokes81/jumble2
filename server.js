@@ -36,7 +36,7 @@ app.use("/js", express.static(__dirname + "public/js"));
 app.use("/images", express.static(__dirname + "public/images"));
 app.use(flash());
 
-app.get("/users/index/", (req, res) => {
+app.get("/", (req, res) => {
   res.render("index");
 });
 
